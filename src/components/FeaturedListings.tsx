@@ -1,8 +1,9 @@
 // src/components/FeaturedListings.tsx
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Listing {
+  id: number;
   title: string;
   location: string;
   price: string;
@@ -12,6 +13,7 @@ interface Listing {
 
 const listings: Listing[] = [
   {
+    id: 1,
     title: "Luxury Waterfront Apartment",
     location: "Lekki, Lagos",
     price: "₦170,000 / night",
@@ -20,6 +22,7 @@ const listings: Listing[] = [
     rating: 4.8,
   },
   {
+    id: 2,
     title: "Elegant Villa with Pool",
     location: "Abuja",
     price: "₦250,000 / night",
@@ -28,6 +31,7 @@ const listings: Listing[] = [
     rating: 4.9,
   },
   {
+    id: 3,
     title: "Modern City View Apartment",
     location: "Victoria Island, Lagos",
     price: "₦200,000 / night",
@@ -36,6 +40,7 @@ const listings: Listing[] = [
     rating: 4.7,
   },
   {
+    id: 4,
     title: "Cozy Premium Studio",
     location: "Ikoyi, Lagos",
     price: "₦120,000 / night",
@@ -46,6 +51,8 @@ const listings: Listing[] = [
 ];
 
 export default function FeaturedListings() {
+  const navigate = useNavigate();
+
   return (
     <section className="py-16 px-6 lg:px-20 bg-white">
       {/* Header */}
@@ -58,20 +65,26 @@ export default function FeaturedListings() {
             Handpicked luxury stays curated just for you
           </p>
         </div>
-        <Link to="/listings" className="mt-4 md:mt-0 bg-amber-500 hover:bg-amber-600 transition px-6 py-3 rounded-xl text-white font-semibold">
+
+        {/* Desktop Button */}
+        <button
+          onClick={() => navigate("/listings")}
+          className="hidden md:inline-block bg-amber-500 hover:bg-amber-600 transition px-6 py-3 rounded-xl text-white font-semibold"
+        >
           View All
-        </Link>
+        </button>
       </div>
 
       {/* Listings Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {listings.map((listing, index) => (
           <motion.div
-            key={index}
+            key={listing.id}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2, duration: 0.6 }}
             className="rounded-2xl overflow-hidden shadow-lg bg-gray-50 group cursor-pointer hover:shadow-2xl transition"
+            onClick={() => navigate(`/listing/${listing.id}`)}
           >
             {/* Image */}
             <div className="relative h-56 overflow-hidden">
@@ -95,6 +108,16 @@ export default function FeaturedListings() {
             </div>
           </motion.div>
         ))}
+      </div>
+
+      {/* Mobile Button (after listings) */}
+      <div className="mt-10 text-center md:hidden">
+        <button
+          onClick={() => navigate("/listings")}
+          className="bg-amber-500 hover:bg-amber-600 transition px-6 py-3 rounded-xl text-white font-semibold"
+        >
+          View All
+        </button>
       </div>
     </section>
   );

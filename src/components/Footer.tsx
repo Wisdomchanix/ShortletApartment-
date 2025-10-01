@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         {/* Brand / About */}
         <div>
-          <h3 className="text-2xl font-bold text-[#C5A572] mb-4">99Keys</h3>
+          <h3 className="text-2xl font-bold text-[#C5A572] mb-4">Shortlets</h3>
           <p className="text-gray-400 text-sm leading-relaxed">
             Unlock luxury living with curated premium properties designed
             for comfort, elegance, and timeless experiences.
@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
 
       {/* Bottom bar */}
       <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-500 text-sm">
-        © {new Date().getFullYear()} 99Keys. All rights reserved.
+        © {new Date().getFullYear()} Shortlets. All rights reserved.
       </div>
     </footer>
   );
