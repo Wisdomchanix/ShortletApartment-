@@ -25,7 +25,6 @@ const ListingsPage: React.FC = () => {
         ? listing.bedrooms >= parseInt(filterRooms, 10)
         : true;
 
-      // We’re not filtering by dates yet, just displaying them
       return matchesLocation && matchesRooms;
     });
   }, [filterLocation, filterRooms, checkIn, checkOut]);
@@ -59,8 +58,9 @@ const ListingsPage: React.FC = () => {
               className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer"
               onClick={() => navigate(`/listing/${listing.id}`)}
             >
+              {/* ✅ Use the first image from the gallery */}
               <img
-                src={listing.image}
+                src={listing.images[0]}
                 alt={listing.title}
                 className="w-full h-56 object-cover"
               />

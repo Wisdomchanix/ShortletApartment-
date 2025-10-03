@@ -1,6 +1,16 @@
+// src/pages/ListingDetails.tsx
 import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { listings } from "../data/ListingData";
-import { Bed, Bath, DollarSign, Wifi, Utensils, Tv, Coffee, Info } from "lucide-react";
+import { Bed, Bath, DollarSign, Wifi, Utensils, Tv, Coffee, Info, X } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "react-datepicker/dist/react-datepicker.css";
+import BookingModal from "./BookingModal";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const ListingDetails: React.FC = () => {
   const { id } = useParams();
@@ -10,6 +20,13 @@ const ListingDetails: React.FC = () => {
   const currentListing = listings.find((l) => l.id === listingId);
 
   const recommendations = listings.filter((l) => l.id !== listingId).slice(0, 3);
+
+  // 🔥 Lightbox state
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
+
+    // 🔥 Booking Modal
+  const [showBooking, setShowBooking] = useState(false);
 
   if (!currentListing) {
     return (
@@ -21,13 +38,29 @@ const ListingDetails: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 space-y-12">
-      {/* Main listing details */}
+      {/* Image Gallery */}
       <div>
-        <img
-          src={currentListing.image}
-          alt={currentListing.title}
-          className="w-full h-96 object-cover rounded-2xl shadow-lg"
-        />
+        <Swiper
+          modules={[Navigation, Pagination]}
+          navigation
+          pagination={{ clickable: true }}
+          className="rounded-2xl shadow-lg"
+        >
+          {currentListing.images.map((img, idx) => (
+            <SwiperSlide key={idx}>
+              <img
+                src={img}
+                alt={`${currentListing.title} - ${idx + 1}`}
+                className="w-full h-96 object-cover rounded-2xl cursor-pointer"
+                onClick={() => {
+                  setLightboxOpen(true);
+                  setStartIndex(idx);
+                }}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
         <h1 className="text-3xl font-bold mt-6">{currentListing.title}</h1>
         <p className="text-gray-600 mt-2">{currentListing.location}</p>
         <p className="text-orange-600 font-bold text-xl mt-4">{currentListing.price}</p>
@@ -98,7 +131,7 @@ const ListingDetails: React.FC = () => {
               className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer"
               onClick={() => navigate(`/listing/${rec.id}`)}
             >
-              <img src={rec.image} alt={rec.title} className="w-full h-48 object-cover" />
+              <img src={rec.images[0]} alt={rec.title} className="w-full h-48 object-cover" />
               <div className="p-4">
                 <h3 className="text-lg font-semibold">{rec.title}</h3>
                 <p className="text-gray-600">{rec.location}</p>
@@ -108,6 +141,51 @@ const ListingDetails: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* Fullscreen Lightbox Modal */}
+      {lightboxOpen && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
+          <button
+            className="absolute top-6 right-6 text-white text-3xl"
+            onClick={() => setLightboxOpen(false)}
+          >
+            <X className="w-8 h-8" />
+          </button>
+          <div className="w-full max-w-5xl">
+            <Swiper
+              modules={[Navigation, Pagination]}
+              navigation
+              pagination={{ clickable: true }}
+              initialSlide={startIndex}
+            >
+              {currentListing.images.map((img, idx) => (
+                <SwiperSlide key={idx}>
+                  <img
+                    src={img}
+                    alt={`Preview ${idx + 1}`}
+                    className="w-full h-[80vh] object-contain"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
+      )}
+
+       <button
+        onClick={() => setShowBooking(true)}
+        className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[90%] max-w-md bg-orange-600 text-white font-semibold py-3 rounded-lg shadow-lg z-50"
+      >
+        Book Now
+      </button>
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={showBooking}
+        onClose={() => setShowBooking(false)}
+        price={currentListing.price}
+      />
+      
     </div>
   );
 };

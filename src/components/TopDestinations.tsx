@@ -1,5 +1,7 @@
 // src/components/TopDestinations.tsx
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import ScrollReveal from "scrollreveal";
 
 interface Destination {
   name: string;
@@ -30,8 +32,20 @@ const destinations: Destination[] = [
 ];
 
 export default function TopDestinations() {
+
+   useEffect(() => {
+      ScrollReveal().reveal(".destinations", {
+        duration: 1500,
+        distance: "60px",
+        origin: "bottom",
+        easing: "ease-in-out",
+        reset: true,
+        interval: 150,
+      });
+    }, []);
+  
   return (
-    <section className="py-16 px-6 lg:px-20 bg-gray-50">
+    <section className="py-16 px-6 lg:px-20 bg-gray-50 section destinations">
       <div className="text-center mb-10">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
           Top <span className="text-amber-500">Destinations</span>

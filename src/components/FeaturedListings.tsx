@@ -1,6 +1,8 @@
 // src/components/FeaturedListings.tsx
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import ScrollReveal from "scrollreveal";
 
 interface Listing {
   id: number;
@@ -53,8 +55,19 @@ const listings: Listing[] = [
 export default function FeaturedListings() {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    ScrollReveal().reveal(".featured", {
+      duration: 1500,
+      distance: "60px",
+      origin: "bottom",
+      easing: "ease-in-out",
+      reset: true,
+      interval: 200,
+    });
+  }, []);
+
   return (
-    <section className="py-16 px-6 lg:px-20 bg-white">
+    <section className="py-16 px-6 lg:px-20 bg-white featured" id="apartments">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 text-center md:text-left">
         <div>
@@ -81,8 +94,9 @@ export default function FeaturedListings() {
           <motion.div
             key={listing.id}
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}   // 👈 animate on scroll into view
             transition={{ delay: index * 0.2, duration: 0.6 }}
+            viewport={{ once: false, amount: 0.2 }} // 👈 triggers when 20% of card is visible
             className="rounded-2xl overflow-hidden shadow-lg bg-gray-50 group cursor-pointer hover:shadow-2xl transition"
             onClick={() => navigate(`/listing/${listing.id}`)}
           >

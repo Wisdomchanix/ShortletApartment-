@@ -1,5 +1,7 @@
 import React from "react";
 import { ShieldCheck, Diamond, Building2, Clock } from "lucide-react";
+import { useEffect } from "react";
+import ScrollReveal from "scrollreveal";
 
 const WhyChooseUs: React.FC = () => {
   const features = [
@@ -33,8 +35,19 @@ const WhyChooseUs: React.FC = () => {
     },
   ];
 
+    useEffect(() => {
+    ScrollReveal().reveal(".whychoose", {
+      duration: 1500,
+      distance: "60px",
+      origin: "bottom",
+      easing: "ease-in-out",
+      reset: true,
+      interval: 200, 
+    });
+  }, []);
+
   return (
-    <section className="w-full py-16 px-6 md:px-12 bg-white" id="about">
+    <section className="w-full py-16 px-6 md:px-12 bg-white whychoose" id="about">
       <div className="max-w-6xl mx-auto text-center">
         {/* Heading */}
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
