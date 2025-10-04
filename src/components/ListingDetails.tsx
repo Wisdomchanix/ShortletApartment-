@@ -25,7 +25,7 @@ const ListingDetails: React.FC = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
 
-    // 🔥 Booking Modal
+  // 🔥 Booking Modal
   const [showBooking, setShowBooking] = useState(false);
 
   if (!currentListing) {
@@ -172,7 +172,8 @@ const ListingDetails: React.FC = () => {
         </div>
       )}
 
-       <button
+      {/* Floating Book Now Button */}
+      <button
         onClick={() => setShowBooking(true)}
         className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[90%] max-w-md bg-orange-600 text-white font-semibold py-3 rounded-lg shadow-lg z-50"
       >
@@ -184,8 +185,9 @@ const ListingDetails: React.FC = () => {
         isOpen={showBooking}
         onClose={() => setShowBooking(false)}
         price={currentListing.price}
+        propertyName={currentListing.title}        // ✅ Added
+        // propertyLocation={currentListing.location} 
       />
-      
     </div>
   );
 };

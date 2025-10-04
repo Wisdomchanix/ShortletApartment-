@@ -94,9 +94,8 @@ export default function FeaturedListings() {
           <motion.div
             key={listing.id}
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}   // 👈 animate on scroll into view
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2, duration: 0.6 }}
-            viewport={{ once: false, amount: 0.2 }} // 👈 triggers when 20% of card is visible
             className="rounded-2xl overflow-hidden shadow-lg bg-gray-50 group cursor-pointer hover:shadow-2xl transition"
             onClick={() => navigate(`/listing/${listing.id}`)}
           >
