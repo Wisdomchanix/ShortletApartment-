@@ -70,7 +70,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price, pro
 I have made the payment. Please confirm my booking.
     `;
 
-    const phoneNumber = "07063604975"; // ✅ Replace with your WhatsApp number
+    const phoneNumber = "+2347063604975"; // ✅ Replace with your WhatsApp number
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
